@@ -21,16 +21,24 @@ class Auto_StoreTests: XCTestCase {
         super.tearDown()
     }
     
+    // https://github.com/sdegutis/DIY-Window-Manager/blob/master/Desktop/Desktop/App.swift
     func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+        let appstore: NSRunningApplication? = NSRunningApplication.runningApplicationsWithBundleIdentifier("com.apple.appstore").first as? NSRunningApplication
+        let pid = appstore?.processIdentifier
+        let app = AXUIElementCreateApplication(pid!).takeRetainedValue()
+
+        println(app)
+//        println(appstore?.accessibilityActionNames())
+//        println(appstore.accessibilityChildren())
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
+    // http://stackoverflow.com/questions/17693408/enable-access-for-assistive-devices-programmatically-on-10-9
+    // https://github.com/joelteon/Maxxxro/blob/master/Maxxxro/AppDelegate.swift
+    func testAccessibilityEnabled() {
+        let trusted = kAXTrustedCheckOptionPrompt.takeUnretainedValue()
+        let privOptions = [trusted as NSString: true]
+        let accessEnabled = AXIsProcessTrustedWithOptions(privOptions)
+        XCTAssert(accessEnabled == 1, "Accessibility for Xcode not enabled")
     }
     
 }
