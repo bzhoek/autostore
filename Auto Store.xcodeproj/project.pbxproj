@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		495AE0521A6E84B200AC6F94 /* a11y.m in Sources */ = {isa = PBXBuildFile; fileRef = 495AE0511A6E84B200AC6F94 /* a11y.m */; };
+		495AE0531A6E84B200AC6F94 /* a11y.m in Sources */ = {isa = PBXBuildFile; fileRef = 495AE0511A6E84B200AC6F94 /* a11y.m */; };
 		498266FA1A6BEDF40066C4D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498266F91A6BEDF40066C4D2 /* AppDelegate.swift */; };
 		498266FC1A6BEDF40066C4D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 498266FB1A6BEDF40066C4D2 /* Images.xcassets */; };
 		498266FF1A6BEDF40066C4D2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 498266FD1A6BEDF40066C4D2 /* MainMenu.xib */; };
@@ -24,6 +26,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		495AE04F1A6E84B200AC6F94 /* Auto Store-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Auto Store-Bridging-Header.h"; sourceTree = "<group>"; };
+		495AE0501A6E84B200AC6F94 /* Auto StoreTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Auto StoreTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		495AE0511A6E84B200AC6F94 /* a11y.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = a11y.m; sourceTree = "<group>"; };
+		495AE0541A6E84CC00AC6F94 /* a11y.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = a11y.h; sourceTree = "<group>"; };
 		498266F41A6BEDF40066C4D2 /* Auto Store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Auto Store.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		498266F81A6BEDF40066C4D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		498266F91A6BEDF40066C4D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +83,10 @@
 				498266FB1A6BEDF40066C4D2 /* Images.xcassets */,
 				498266FD1A6BEDF40066C4D2 /* MainMenu.xib */,
 				498266F71A6BEDF40066C4D2 /* Supporting Files */,
+				495AE0511A6E84B200AC6F94 /* a11y.m */,
+				495AE0541A6E84CC00AC6F94 /* a11y.h */,
+				495AE04F1A6E84B200AC6F94 /* Auto Store-Bridging-Header.h */,
+				495AE0501A6E84B200AC6F94 /* Auto StoreTests-Bridging-Header.h */,
 			);
 			path = "Auto Store";
 			sourceTree = "<group>";
@@ -206,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				498266FA1A6BEDF40066C4D2 /* AppDelegate.swift in Sources */,
+				495AE0521A6E84B200AC6F94 /* a11y.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4982670B1A6BEDF40066C4D2 /* Auto_StoreTests.swift in Sources */,
+				495AE0531A6E84B200AC6F94 /* a11y.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,10 +332,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Auto Store/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Auto Store/Auto Store-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -331,10 +346,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Auto Store/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Auto Store/Auto Store-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -342,6 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -354,6 +372,8 @@
 				INFOPLIST_FILE = "Auto StoreTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Auto Store/Auto StoreTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Auto Store.app/Contents/MacOS/Auto Store";
 			};
 			name = Debug;
@@ -362,6 +382,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -370,6 +391,7 @@
 				INFOPLIST_FILE = "Auto StoreTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Auto Store/Auto StoreTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Auto Store.app/Contents/MacOS/Auto Store";
 			};
 			name = Release;
@@ -393,6 +415,7 @@
 				498267101A6BEDF40066C4D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		498267111A6BEDF40066C4D2 /* Build configuration list for PBXNativeTarget "Auto StoreTests" */ = {
 			isa = XCConfigurationList;
@@ -401,6 +424,7 @@
 				498267131A6BEDF40066C4D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

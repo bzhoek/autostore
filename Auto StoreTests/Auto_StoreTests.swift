@@ -43,31 +43,30 @@ class Auto_StoreTests: XCTestCase {
     return ptr?.takeRetainedValue() as? String
   }
 
-//  func testExample() {
-//    for win in windows() {
-//      let name = win[kCGWindowOwnerName as NSString]
-//      if name as NSString == "App Store" {
-//        let pidi = win[kCGWindowOwnerPID as NSString] as NSInteger
-//        let pid: pid_t = Int32(pidi)
-//        let app = AXUIElementCreateApplication(pid).takeUnretainedValue()
-//        var ptr: Unmanaged<AnyObject>?
-//        AXAttributes.Windows.rawValue
-//        AXUIElementCopyAttributeValue(app, AXAttributes.Windows.rawValue, &ptr)
-//        let windowList: AnyObject? = ptr?.takeRetainedValue()
-//        println(windowList)
-//        println(CFArrayGetCount(windowList as CFArray))
-//        let windowRef = CFArrayGetValueAtIndex(windowList as CFArray, 0)
-//        println(windowRef)
-//        AXUIElementCopyAttributeValue(app, "AXMainWindow", &ptr)
-//        let element = ptr?.takeRetainedValue() as AXUIElementRef
-//        let description = CFCopyTypeIDDescription(CFGetTypeID(element))
-//        println("type = \(description)")
-//        println(element)
-//        println(self.attributeValue(element, attribute: .Role))
-//        println(self.attributeValue(element, attribute: .Description))
-//      }
-//    }
-//  }
-
+  func testExample() {
+    for win in windows() {
+      let name = win[kCGWindowOwnerName as NSString]
+      if name as NSString == "App Store" {
+        let pidi = win[kCGWindowOwnerPID as NSString] as NSInteger
+        let pid: pid_t = Int32(pidi)
+        let app = AXUIElementCreateApplication(pid).takeUnretainedValue()
+        var ptr: Unmanaged<AnyObject>?
+        AXAttributes.Windows.rawValue
+        AXUIElementCopyAttributeValue(app, AXAttributes.Windows.rawValue, &ptr)
+        let windowList: AnyObject? = ptr?.takeRetainedValue()
+        println(windowList)
+        println(CFArrayGetCount(windowList as CFArray))
+        let windowRef = CFArrayGetValueAtIndex(windowList as CFArray, 0)
+        println(windowRef)
+        AXUIElementCopyAttributeValue(app, "AXMainWindow", &ptr)
+        let element = ptr?.takeRetainedValue() as AXUIElementRef
+        let description = CFCopyTypeIDDescription(CFGetTypeID(element))
+        println("type = \(description)")
+        println(element)
+        println(self.attributeValue(element, attribute: .Role))
+        println(self.attributeValue(element, attribute: .Description))
+      }
+    }
+  }
 
 }
