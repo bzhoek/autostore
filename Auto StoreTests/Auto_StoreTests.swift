@@ -43,8 +43,20 @@ class Auto_StoreTests: XCTestCase {
     return ptr?.takeRetainedValue() as? String
   }
 
-  func testExample() {
+  func findWindowByName(name: String) -> AXUIElement? {
     for win in windows() {
+      let name = win[kCGWindowOwnerName as NSString]
+      if name as NSString == "App Store" {
+        let pidi = win[kCGWindowOwnerPID as NSString] as NSInteger
+        let pid: pid_t = Int32(pidi)
+        return AXUIElementCreateApplication(pid).takeUnretainedValue()
+      }
+    }
+    return nil
+  }
+  
+  func testExample() {
+    for win in openWindows() {
       let name = win[kCGWindowOwnerName as NSString]
       if name as NSString == "App Store" {
         let pidi = win[kCGWindowOwnerPID as NSString] as NSInteger
@@ -67,6 +79,11 @@ class Auto_StoreTests: XCTestCase {
         println(self.attributeValue(element, attribute: .Description))
       }
     }
+  }
+  
+  // http://stackoverflow.com/a/24094636
+  func openWindows() -> NSArray {
+    return CGWindowListCopyWindowInfo(CGWindowListOption(kCGWindowListOptionOnScreenOnly), CGWindowID(0)).takeRetainedValue()
   }
 
 }
