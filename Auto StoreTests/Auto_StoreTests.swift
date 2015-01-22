@@ -44,11 +44,9 @@ class Auto_StoreTests: XCTestCase {
   }
 
   func findWindowByName(name: String) -> AXUIElement? {
-    for win in windows() {
-      let name = win[kCGWindowOwnerName as NSString]
-      if name as NSString == "App Store" {
-        let pidi = win[kCGWindowOwnerPID as NSString] as NSInteger
-        let pid: pid_t = Int32(pidi)
+    for window in windows() {
+      if window[kCGWindowOwnerName as NSString] as NSString == name {
+        let pid: pid_t = Int32(window[kCGWindowOwnerPID as NSString] as NSInteger)
         return AXUIElementCreateApplication(pid).takeUnretainedValue()
       }
     }
@@ -67,28 +65,23 @@ class Auto_StoreTests: XCTestCase {
   }
 
   func testExample() {
-    for win in openWindows() {
-      let name = win[kCGWindowOwnerName as NSString]
-      if name as NSString == "App Store" {
-        let pidi = win[kCGWindowOwnerPID as NSString] as NSInteger
-        let pid: pid_t = Int32(pidi)
-        let app = AXUIElementCreateApplication(pid).takeUnretainedValue()
-        var ptr: Unmanaged<AnyObject>?
-        AXAttributes.Windows.rawValue
-        AXUIElementCopyAttributeValue(app, AXAttributes.Windows.rawValue, &ptr)
-        let windowList: AnyObject? = ptr?.takeRetainedValue()
-        println(windowList)
-        println(CFArrayGetCount(windowList as CFArray))
-        let windowRef = CFArrayGetValueAtIndex(windowList as CFArray, 0)
-        println(windowRef)
-        AXUIElementCopyAttributeValue(app, "AXMainWindow", &ptr)
-        let element = ptr?.takeRetainedValue() as AXUIElementRef
-        let description = CFCopyTypeIDDescription(CFGetTypeID(element))
-        println("type = \(description)")
-        println(element)
-        XCTAssertEqualOptional(self.attributeValue(element, attribute: .Role), "AXWindow")
-        XCTAssertEqualOptional(self.attributeValue(element, attribute: .Description), "App Store")
-      }
+    if let app = findWindowByName("App Store") {
+      var ptr: Unmanaged<AnyObject>?
+      AXUIElementCopyAttributeValue(app, AXAttributes.Windows.rawValue, &ptr)
+      let windowList: AnyObject? = ptr?.takeRetainedValue()
+      println(windowList)
+      println(CFArrayGetCount(windowList as CFArray))
+      let windowRef = CFArrayGetValueAtIndex(windowList as CFArray, 0)
+      println(windowRef)
+      AXUIElementCopyAttributeValue(app, "AXMainWindow", &ptr)
+      let element = ptr?.takeRetainedValue() as AXUIElementRef
+      let description = CFCopyTypeIDDescription(CFGetTypeID(element))
+      println("type = \(description)")
+      println(element)
+      XCTAssertEqualOptional(self.attributeValue(element, attribute: .Role), "AXWindow")
+      XCTAssertEqualOptional(self.attributeValue(element, attribute: .Description), "App Store")
+    } else {
+      XCTFail("App Store not found")
     }
   }
 
