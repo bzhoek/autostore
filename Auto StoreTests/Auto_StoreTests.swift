@@ -14,7 +14,7 @@ public extension AXUIElement {
 }
 
 enum AXAttributes: String {
-  case Description = "AXDescription", Role = "AXRole", Windows = "AXWindows"
+  case Children = "AXChildren", Description = "AXDescription", Role = "AXRole", Windows = "AXWindows"
 }
 
 class Auto_StoreTests: XCTestCase {
@@ -35,12 +35,28 @@ class Auto_StoreTests: XCTestCase {
     XCTAssert(accessEnabled == 1, "Accessibility for Xcode not enabled")
   }
 
-  func attributeValue(element: AXUIElement, attribute: AXAttributes) -> String? {
+  func attributeStringValue(element: AXUIElement, attribute: AXAttributes) -> String? {
     var ptr: Unmanaged<AnyObject>?
     if AXUIElementCopyAttributeValue(element, attribute.rawValue, &ptr) != AXError(kAXErrorSuccess) {
       return nil
     }
     return ptr?.takeRetainedValue() as? String
+  }
+
+  func attributeValue(element: AXUIElement, attribute: AXAttributes) -> AnyObject? {
+    var ptr: Unmanaged<AnyObject>?
+    if AXUIElementCopyAttributeValue(element, attribute.rawValue, &ptr) != AXError(kAXErrorSuccess) {
+      return nil
+    }
+    return ptr?.takeRetainedValue()
+  }
+
+  func attributeValue<T>(element: AXUIElement, attribute: AXAttributes) -> T? {
+    var ptr: Unmanaged<AnyObject>?
+    if AXUIElementCopyAttributeValue(element, attribute.rawValue, &ptr) != AXError(kAXErrorSuccess) {
+      return nil
+    }
+    return ptr?.takeRetainedValue() as? T
   }
 
   // http://stackoverflow.com/a/24094636
@@ -58,6 +74,7 @@ class Auto_StoreTests: XCTestCase {
     return nil
   }
 
+  // https://blog.codecentric.de/en/2014/10/extending-xctestcase-testing-swift-optionals/
   func XCTAssertEqualOptional<T:Equatable>(actual: @autoclosure () -> T?, _ expected: @autoclosure () -> T, file: String = __FILE__, line: UInt = __LINE__) {
     if let actual = actual() {
       let expected = expected()
@@ -80,11 +97,23 @@ class Auto_StoreTests: XCTestCase {
       println(windowRef)
       AXUIElementCopyAttributeValue(app, "AXMainWindow", &ptr)
       let element = ptr?.takeRetainedValue() as AXUIElementRef
-      let description = CFCopyTypeIDDescription(CFGetTypeID(element))
-      println("type = \(description)")
+      println("type = \(CFCopyTypeIDDescription(CFGetTypeID(element)))")
       println(element)
       XCTAssertEqualOptional(self.attributeValue(element, attribute: .Role), "AXWindow")
       XCTAssertEqualOptional(self.attributeValue(element, attribute: .Description), "App Store")
+      if let children: NSArray = self.attributeValue(element, attribute: .Children) {
+        for child in children {
+          println("type = \(CFCopyTypeIDDescription(CFGetTypeID(child)))")
+          var names: Unmanaged<CFArray>? = nil
+          AXUIElementCopyAttributeNames(child as AXUIElement, &names)
+          println(names?.takeRetainedValue())
+          println(self.attributeValue(child as AXUIElementRef, attribute: .Role) as String)
+        }
+      }
+//      for  {
+//        XCTAssertEqualOptional(child.attributeValue(element, attribute: .Description), "App Store")
+//      }
+//      println(children)
     } else {
       XCTFail("App Store not found")
     }
