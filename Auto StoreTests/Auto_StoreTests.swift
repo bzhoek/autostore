@@ -54,7 +54,18 @@ class Auto_StoreTests: XCTestCase {
     }
     return nil
   }
-  
+
+  func XCTAssertEqualOptional<T:Equatable>(actual: @autoclosure () -> T?, _ expected: @autoclosure () -> T, file: String = __FILE__, line: UInt = __LINE__) {
+    if let actual = actual() {
+      let expected = expected()
+      if actual != expected {
+        self.recordFailureWithDescription("Optional(\(actual)) is not equal to (\(expected))", inFile: file, atLine: line, expected: true)
+      }
+    } else {
+      self.recordFailureWithDescription("Optional value is empty", inFile: file, atLine: line, expected: true)
+    }
+  }
+
   func testExample() {
     for win in openWindows() {
       let name = win[kCGWindowOwnerName as NSString]
@@ -75,12 +86,12 @@ class Auto_StoreTests: XCTestCase {
         let description = CFCopyTypeIDDescription(CFGetTypeID(element))
         println("type = \(description)")
         println(element)
-        println(self.attributeValue(element, attribute: .Role))
-        println(self.attributeValue(element, attribute: .Description))
+        XCTAssertEqualOptional(self.attributeValue(element, attribute: .Role), "AXWindow")
+        XCTAssertEqualOptional(self.attributeValue(element, attribute: .Description), "App Store")
       }
     }
   }
-  
+
   // http://stackoverflow.com/a/24094636
   func openWindows() -> NSArray {
     return CGWindowListCopyWindowInfo(CGWindowListOption(kCGWindowListOptionOnScreenOnly), CGWindowID(0)).takeRetainedValue()
