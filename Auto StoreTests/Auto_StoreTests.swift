@@ -43,8 +43,13 @@ class Auto_StoreTests: XCTestCase {
     return ptr?.takeRetainedValue() as? String
   }
 
+  // http://stackoverflow.com/a/24094636
+  func openWindows() -> NSArray {
+    return CGWindowListCopyWindowInfo(CGWindowListOption(kCGWindowListOptionOnScreenOnly), CGWindowID(0)).takeRetainedValue()
+  }
+
   func findWindowByName(name: String) -> AXUIElement? {
-    for window in windows() {
+    for window in openWindows() {
       if window[kCGWindowOwnerName as NSString] as NSString == name {
         let pid: pid_t = Int32(window[kCGWindowOwnerPID as NSString] as NSInteger)
         return AXUIElementCreateApplication(pid).takeUnretainedValue()
@@ -64,7 +69,7 @@ class Auto_StoreTests: XCTestCase {
     }
   }
 
-  func testExample() {
+  func testAppStore() {
     if let app = findWindowByName("App Store") {
       var ptr: Unmanaged<AnyObject>?
       AXUIElementCopyAttributeValue(app, AXAttributes.Windows.rawValue, &ptr)
@@ -83,11 +88,6 @@ class Auto_StoreTests: XCTestCase {
     } else {
       XCTFail("App Store not found")
     }
-  }
-
-  // http://stackoverflow.com/a/24094636
-  func openWindows() -> NSArray {
-    return CGWindowListCopyWindowInfo(CGWindowListOption(kCGWindowListOptionOnScreenOnly), CGWindowID(0)).takeRetainedValue()
   }
 
 }
